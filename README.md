@@ -8,13 +8,9 @@ A GTK version of the 15 puzzle game
 
 # DESCRIPTION
 
-For now you have to manually change the constant
+Start a new game by selecting the **File/New game** menu item. You can choose any **PNG** file you want. 
 
-```go
-  const numberOfRows = 3
-```
-
-to 4 if you want it to be a 15-puzzle. 
+You can change the difficulty level from the **Difficulty** menu.
 
 # SCREENSHOT
 

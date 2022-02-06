@@ -15,10 +15,11 @@ import (
 const applicationTitle = "puzzle15"
 const applicationVersion = "v 0.01"
 const applicationCopyRight = "©SoftTeam AB, 2020"
-const numberOfRows = 3
-const numberOfTiles = numberOfRows * numberOfRows
 
+var numberOfRows = 3
+var numberOfTiles = numberOfRows * numberOfRows
 var cardinal = [][2]int{{0, 1}, {1, 0}, {0, -1}, {-1, 0}}
+var menuLow, menuMedium, menuHigh *gtk.RadioMenuItem
 
 type MainForm struct {
 	window      *gtk.ApplicationWindow
@@ -90,6 +91,13 @@ func (m *MainForm) setupMenu(fw *framework.Framework) {
 
 	menuQuit := m.builder.GetObject("mnuFileQuit").(*gtk.MenuItem)
 	menuQuit.Connect("activate", m.window.Close)
+
+	menuLow = m.builder.GetObject("mnuDifficultyLow").(*gtk.RadioMenuItem)
+	menuLow.Connect("activate", m.SetDifficultyLevel)
+	menuMedium = m.builder.GetObject("mnuDifficultyMedium").(*gtk.RadioMenuItem)
+	menuMedium.Connect("activate", m.SetDifficultyLevel)
+	menuHigh = m.builder.GetObject("mnuDifficultyHigh").(*gtk.RadioMenuItem)
+	menuHigh.Connect("activate", m.SetDifficultyLevel)
 }
 
 func (m *MainForm) NewGame() {
@@ -212,4 +220,17 @@ func (m *MainForm) isGameWon() bool {
 		}
 	}
 	return true
+}
+
+func (m *MainForm) SetDifficultyLevel() {
+	switch {
+	case menuLow.GetActive():
+		numberOfRows = 3
+	case menuMedium.GetActive():
+		numberOfRows = 4
+	case menuHigh.GetActive():
+		numberOfRows = 5
+	}
+
+	numberOfTiles = numberOfRows * numberOfRows
 }
