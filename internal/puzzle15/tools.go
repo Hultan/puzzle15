@@ -8,9 +8,9 @@ func abs(i int) int {
 }
 
 func getXYFromIndex(i int) (int, int) {
-	return i % 4, i / 4
+	return i % numberOfRows, i / numberOfRows
 }
 
 func getIndexFromXY(x, y int) int {
-	return x + y*4
+	return x + y*numberOfRows
 }

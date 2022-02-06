@@ -15,7 +15,8 @@ import (
 const applicationTitle = "puzzle15"
 const applicationVersion = "v 0.01"
 const applicationCopyRight = "©SoftTeam AB, 2020"
-const numberOfTiles = 16
+const numberOfRows = 3
+const numberOfTiles = numberOfRows * numberOfRows
 
 var cardinal = [][2]int{{0, 1}, {1, 0}, {0, -1}, {-1, 0}}
 
@@ -26,6 +27,10 @@ type MainForm struct {
 	drawingArea *gtk.DrawingArea
 	tiles       []*Tile
 	scramble    map[int]int
+}
+
+type Tile struct {
+	surface *cairo.Surface
 }
 
 var tileWidth, tileHeight int
@@ -124,8 +129,8 @@ func (m *MainForm) setupNewGame(filename string) {
 	m.drawingArea.SetSizeRequest(surface.GetWidth(), surface.GetHeight())
 
 	// Calculate tile width and height
-	tileWidth = surface.GetWidth() / 4
-	tileHeight = surface.GetHeight() / 4
+	tileWidth = surface.GetWidth() / numberOfRows
+	tileHeight = surface.GetHeight() / numberOfRows
 
 	// Create tiles
 	for i := 0; i < numberOfTiles-1; i++ {
@@ -188,13 +193,28 @@ func (m *MainForm) makeMove(x int, y int) {
 	ei := m.getEmptyTileIndex()
 	m.scramble[i], m.scramble[ei] = m.scramble[ei], m.scramble[i]
 	m.drawingArea.QueueDraw()
+
+	if m.isGameWon() {
+		noPatternDlg := gtk.MessageDialogNew(m.window, gtk.DIALOG_MODAL, gtk.MESSAGE_WARNING, gtk.BUTTONS_OK, "%s", "You won the game!")
+		noPatternDlg.Run()
+		noPatternDlg.Destroy()
+	}
 }
 
 func (m *MainForm) isValidMove(x int, y int) bool {
-	if x < 0 || x > 3 || y < 0 || y > 3 {
+	if x < 0 || x > numberOfRows-1 || y < 0 || y > numberOfRows-1 {
 		return false
 	}
 	ei := m.getEmptyTileIndex()
 	ex, ey := getXYFromIndex(ei)
 	return abs(ex-x) == 1 && abs(ey-y) == 0 || abs(ex-x) == 0 && abs(ey-y) == 1
+}
+
+func (m *MainForm) isGameWon() bool {
+	for i := 0; i < numberOfTiles; i++ {
+		if m.scramble[i] != i {
+			return false
+		}
+	}
+	return true
 }
