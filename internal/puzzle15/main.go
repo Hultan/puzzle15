@@ -133,6 +133,7 @@ func (m *MainForm) setupNewGame(filename string) {
 	tileHeight = surface.GetHeight() / numberOfRows
 
 	// Create tiles
+	m.tiles = nil
 	for i := 0; i < numberOfTiles-1; i++ {
 		x, y := getXYFromIndex(i)
 		tileSurface := surface.CreateForRectangle(
