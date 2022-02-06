@@ -84,8 +84,8 @@
     </child>
   </object>
   <object class="GtkApplicationWindow" id="main_window">
-    <property name="width-request">640</property>
-    <property name="height-request">480</property>
+    <property name="width-request">200</property>
+    <property name="height-request">200</property>
     <property name="can-focus">False</property>
     <child>
       <object class="GtkBox">
@@ -107,39 +107,12 @@
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <child>
-                      <object class="GtkImageMenuItem">
-                        <property name="label">gtk-new</property>
+                      <object class="GtkMenuItem" id="mnuFileNewGame">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <property name="tooltip-text" translatable="yes">Start a new game...</property>
+                        <property name="label" translatable="yes">New game</property>
                         <property name="use-underline">True</property>
-                        <property name="use-stock">True</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkImageMenuItem">
-                        <property name="label">gtk-open</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="use-underline">True</property>
-                        <property name="use-stock">True</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkImageMenuItem">
-                        <property name="label">gtk-save</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="use-underline">True</property>
-                        <property name="use-stock">True</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkImageMenuItem">
-                        <property name="label">gtk-save-as</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="use-underline">True</property>
-                        <property name="use-stock">True</property>
                       </object>
                     </child>
                     <child>
@@ -149,10 +122,11 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkMenuItem" id="menu_file_quit">
+                      <object class="GtkMenuItem" id="mnuFileQuit">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="label" translatable="yes">gtk-quit</property>
+                        <property name="tooltip-text" translatable="yes">Quit the application...</property>
+                        <property name="label" translatable="yes">Quit</property>
                         <property name="use-underline">True</property>
                       </object>
                     </child>
@@ -273,7 +247,21 @@
           </packing>
         </child>
         <child>
-          <placeholder/>
+          <object class="GtkEventBox" id="drawingAreaEvent">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <child>
+              <object class="GtkDrawingArea" id="drawingArea">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">2</property>
+          </packing>
         </child>
         <child>
           <object class="GtkStatusbar" id="main_window_status_bar">
