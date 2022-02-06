@@ -25,12 +25,8 @@ type MainForm struct {
 	builder     *framework.GtkBuilder
 	aboutDialog *gtk.AboutDialog
 	drawingArea *gtk.DrawingArea
-	tiles       []*Tile
+	tiles       []*cairo.Surface
 	scramble    map[int]int
-}
-
-type Tile struct {
-	surface *cairo.Surface
 }
 
 var tileWidth, tileHeight int
@@ -138,11 +134,9 @@ func (m *MainForm) setupNewGame(filename string) {
 		x, y := getXYFromIndex(i)
 		tileSurface := surface.CreateForRectangle(
 			float64(x*tileWidth), float64(y*tileHeight), float64(tileWidth), float64(tileHeight))
-		tile := &Tile{surface: tileSurface}
-		m.tiles = append(m.tiles, tile)
+		m.tiles = append(m.tiles, tileSurface)
 	}
-	tile := &Tile{surface: nil}
-	m.tiles = append(m.tiles, tile)
+	m.tiles = append(m.tiles, nil)
 
 	m.resetScramble()
 	m.Scramble(1000)
@@ -179,7 +173,7 @@ func (m *MainForm) resetScramble() {
 
 func (m *MainForm) getEmptyTileIndex() int {
 	for i := 0; i < numberOfTiles; i++ {
-		if m.tiles[m.scramble[i]].surface == nil {
+		if m.tiles[m.scramble[i]] == nil {
 			return i
 		}
 	}
